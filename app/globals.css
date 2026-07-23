@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-ink text-cream font-body;
+    background-image: linear-gradient(
+      180deg,
+      #fff9fb 0%,
+      #ffffff 48%,
+      #fff4f8 100%
+    );
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+
+  ::selection {
+    background-color: rgba(242, 182, 199, 0.55);
+  }
+
+  :focus-visible {
+    outline: 2px solid #b85f6a;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Khung "tranh treo tường" dùng cho card ảnh, banner, thẻ thành viên */
+  .frame {
+    @apply relative border border-border bg-surface rounded-frame;
+  }
+
+  .frame::before {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(184, 95, 106, 0.12);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  /* Nhãn kiểu bảng chú thích trong bảo tàng */
+  .plaque-label {
+    @apply font-mono text-[11px] tracking-[0.18em] uppercase text-gold/80;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 bg-gold text-ink font-semibold px-5 py-2.5 rounded-frame transition-colors hover:bg-goldSoft;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 border border-border text-cream px-5 py-2.5 rounded-frame transition-colors hover:border-gold hover:text-gold;
+  }
+
+  .input {
+    @apply w-full bg-surfaceLight border border-border rounded-frame px-3.5 py-2.5 text-cream placeholder:text-muted focus:border-gold outline-none transition-colors;
+  }
+
+  .label {
+    @apply block text-sm text-muted mb-1.5;
+  }
+
+  .home-hero-band,
+  .home-section-band {
+    background-color: rgba(255, 249, 251, 0.84);
+    border-top: 1px solid rgba(242, 182, 199, 0.42);
+    border-bottom: 1px solid rgba(242, 182, 199, 0.42);
+    backdrop-filter: blur(2px);
+  }
+
+  .home-section-band + .home-section-band {
+    margin-top: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-ready [data-reveal] {
+      opacity: 0;
+      transform: translateY(14px);
+      transition:
+        opacity 520ms ease,
+        transform 520ms ease;
+    }
+
+    .reveal-ready [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home-fixed-backdrop {
+      background-image:
+        linear-gradient(
+          180deg,
+          rgba(255, 249, 251, 0.64),
+          rgba(255, 255, 255, 0.52) 44%,
+          rgba(255, 244, 248, 0.66)
+        ),
+        var(--home-backdrop);
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .home-hero-band,
+    .home-section-band {
+      background-color: rgba(255, 249, 251, 0.88);
+    }
+  }
+}
