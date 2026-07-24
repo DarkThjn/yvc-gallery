@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
+import { normalizeFacebookUrl } from "@/lib/urls";
 
 export async function GET(req, { params }) {
   const member = await prisma.member.findUnique({ where: { id: params.id } });
-  if (!member) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!member)
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(member);
 }
 
@@ -22,7 +24,8 @@ export async function PATCH(req, { params }) {
   if (body.joinedAt !== undefined) data.joinedAt = new Date(body.joinedAt);
   if (body.isActive !== undefined) data.isActive = body.isActive;
   if (body.isAlumni !== undefined) data.isAlumni = body.isAlumni;
-  if (body.facebookUrl !== undefined) data.facebookUrl = body.facebookUrl || null;
+  if (body.facebookUrl !== undefined)
+    data.facebookUrl = normalizeFacebookUrl(body.facebookUrl);
 
   const member = await prisma.member.update({ where: { id: params.id }, data });
   return NextResponse.json(member);

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
+import { normalizeFacebookUrl } from "@/lib/urls";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +42,7 @@ export default async function MemberDetailPage({ params }) {
 
   const birthDate = new Date(member.birthDate);
   const joinedAt = new Date(member.joinedAt);
+  const facebookUrl = normalizeFacebookUrl(member.facebookUrl);
 
   return (
     <div className="max-w-3xl mx-auto px-5 py-16">
@@ -71,10 +73,11 @@ export default async function MemberDetailPage({ params }) {
           <p className="text-sm text-muted mb-1">
             Ngày gia nhập: {joinedAt.toLocaleDateString("vi-VN")}
           </p>
-          {member.facebookUrl && (
+          {facebookUrl && (
             <a
-              href={member.facebookUrl}
+              href={facebookUrl}
               target="_blank"
+              rel="noreferrer"
               className="text-gold text-sm underline"
             >
               Facebook

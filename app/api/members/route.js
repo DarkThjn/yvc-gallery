@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
+import { normalizeFacebookUrl } from "@/lib/urls";
 
 export async function GET() {
-  const members = await prisma.member.findMany({ orderBy: { fullName: "asc" } });
+  const members = await prisma.member.findMany({
+    orderBy: { fullName: "asc" },
+  });
   return NextResponse.json(members);
 }
 
@@ -22,8 +25,8 @@ export async function POST(req) {
       joinedAt: body.joinedAt ? new Date(body.joinedAt) : new Date(),
       isActive: body.isActive ?? true,
       isAlumni: body.isAlumni ?? false,
-      facebookUrl: body.facebookUrl || null
-    }
+      facebookUrl: normalizeFacebookUrl(body.facebookUrl),
+    },
   });
   return NextResponse.json(member, { status: 201 });
 }

@@ -33,14 +33,15 @@ export default function MemberForm({ member }) {
     joinedAt: toDateInputValue(member?.joinedAt) || todayInputValue(),
     facebookUrl: member?.facebookUrl || "",
     isActive: member?.isActive ?? true,
-    isAlumni: member?.isAlumni ?? false
+    isAlumni: member?.isAlumni ?? false,
   });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   function update(field) {
     return (e) => {
-      const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+      const value =
+        e.target.type === "checkbox" ? e.target.checked : e.target.value;
       setForm((f) => ({ ...f, [field]: value }));
     };
   }
@@ -57,7 +58,7 @@ export default function MemberForm({ member }) {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form)
+        body: JSON.stringify(form),
       });
       if (!res.ok) throw new Error("failed");
       router.push("/admin/members");
@@ -70,46 +71,90 @@ export default function MemberForm({ member }) {
 
   return (
     <form onSubmit={handleSubmit} className="frame p-6 space-y-5 max-w-xl">
-      <ImageUploader value={form.photoUrl} onChange={(url) => setForm((f) => ({ ...f, photoUrl: url }))} label="Ảnh đại diện" />
+      <ImageUploader
+        value={form.photoUrl}
+        onChange={(url) => setForm((f) => ({ ...f, photoUrl: url }))}
+        label="Ảnh đại diện"
+      />
 
       <div>
         <label className="label">Họ và tên *</label>
-        <input required className="input" value={form.fullName} onChange={update("fullName")} />
+        <input
+          required
+          className="input"
+          value={form.fullName}
+          onChange={update("fullName")}
+        />
       </div>
 
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <label className="label">Vai trò</label>
-          <input className="input" placeholder="Thành viên, Chủ nhiệm..." value={form.role} onChange={update("role")} />
+          <input
+            className="input"
+            placeholder="Thành viên, Chủ nhiệm..."
+            value={form.role}
+            onChange={update("role")}
+          />
         </div>
         <div>
           <label className="label">Ngày sinh *</label>
-          <input required type="date" className="input" value={form.birthDate} onChange={update("birthDate")} />
+          <input
+            required
+            type="date"
+            className="input"
+            value={form.birthDate}
+            onChange={update("birthDate")}
+          />
         </div>
       </div>
 
       <div>
         <label className="label">Ngày gia nhập *</label>
-        <input required type="date" className="input" value={form.joinedAt} onChange={update("joinedAt")} />
+        <input
+          required
+          type="date"
+          className="input"
+          value={form.joinedAt}
+          onChange={update("joinedAt")}
+        />
       </div>
 
       <div>
         <label className="label">Facebook</label>
-        <input className="input" value={form.facebookUrl} onChange={update("facebookUrl")} />
+        <input
+          className="input"
+          placeholder="facebook.com/ten-tai-khoan hoặc fb.com/ten-tai-khoan"
+          value={form.facebookUrl}
+          onChange={update("facebookUrl")}
+        />
       </div>
 
       <div>
         <label className="label">Tiểu sử ngắn</label>
-        <textarea rows={4} className="input" value={form.bio} onChange={update("bio")} />
+        <textarea
+          rows={4}
+          className="input"
+          value={form.bio}
+          onChange={update("bio")}
+        />
       </div>
 
       <div className="flex gap-6">
         <label className="flex items-center gap-2 text-sm text-cream">
-          <input type="checkbox" checked={form.isActive} onChange={update("isActive")} />
+          <input
+            type="checkbox"
+            checked={form.isActive}
+            onChange={update("isActive")}
+          />
           Đang hoạt động
         </label>
         <label className="flex items-center gap-2 text-sm text-cream">
-          <input type="checkbox" checked={form.isAlumni} onChange={update("isAlumni")} />
+          <input
+            type="checkbox"
+            checked={form.isAlumni}
+            onChange={update("isAlumni")}
+          />
           Cựu thành viên
         </label>
       </div>
