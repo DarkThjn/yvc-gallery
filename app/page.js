@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getBirthdayBannerData } from "@/lib/birthday";
 import BirthdayBanner from "@/components/BirthdayBanner";
 
-const HOME_BACKDROP_URL = "/home-background.jpg";
+const HOME_BACKDROP_URL = "/IMG_5574.webp";
 
 // Luôn tính lại banner sinh nhật theo ngày thực tế mỗi khi có người truy cập,
 // không dùng cache tĩnh cho trang này.
