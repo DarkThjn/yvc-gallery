@@ -1,17 +1,12 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/requireAdmin";
 
 const VALID_STATUSES = new Set(["new", "contacted", "accepted", "rejected"]);
 
-async function requireAdmin() {
-  const session = await getServerSession(authOptions);
-  return !!session;
-}
-
 export async function PATCH(req, { params }) {
-  if (!(await requireAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = await requireAdmin();
+  if (denied) return denied;
   const body = await req.json();
   const status = body.status === "reviewing" ? "contacted" : body.status;
 
@@ -94,7 +89,8 @@ export async function PATCH(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
-  if (!(await requireAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = await requireAdmin();
+  if (denied) return denied;
   await prisma.recruitmentSubmission.delete({ where: { id: params.id } });
   return NextResponse.json({ ok: true });
 }

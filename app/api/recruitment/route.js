@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/requireAdmin";
 import { notifyRecruitmentSubmission } from "@/lib/notifications";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { RECRUITMENT_DEPARTMENTS } from "@/lib/recruitmentDepartments";
@@ -103,9 +102,8 @@ export async function POST(req) {
 
 // Chỉ admin mới xem được danh sách đơn ứng tuyển
 export async function GET() {
-  const session = await getServerSession(authOptions);
-  if (!session)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  const denied = await requireAdmin();
+  if (denied) return denied;
 
   const submissions = await prisma.recruitmentSubmission.findMany({
     orderBy: { createdAt: "desc" },

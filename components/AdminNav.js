@@ -10,7 +10,8 @@ const links = [
   { href: "/admin/gallery", label: "Gallery" },
   { href: "/admin/events", label: "Sự kiện" },
   { href: "/admin/blog", label: "Bài viết" },
-  { href: "/admin/recruitment", label: "Đơn ứng tuyển" }
+  { href: "/admin/recruitment", label: "Đơn ứng tuyển" },
+  { href: "/admin/change-password", label: "Đổi mật khẩu" }
 ];
 
 export default function AdminNav() {

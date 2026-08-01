@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +9,17 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("reason") === "session-replaced") {
+      setNotice("Tài khoản vừa được đăng nhập ở thiết bị khác nên phiên này đã kết thúc.");
+    } else if (params.get("passwordChanged") === "1") {
+      setNotice("Đổi mật khẩu thành công. Vui lòng đăng nhập lại.");
+    }
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -35,6 +45,12 @@ export default function AdminLoginPage() {
     <div className="max-w-sm mx-auto px-5 py-24">
       <p className="plaque-label mb-3 text-center">Khu vực quản trị</p>
       <h1 className="text-2xl mb-8 text-center">Đăng nhập</h1>
+
+      {notice && (
+        <p className="mb-5 rounded border border-gold/30 bg-gold/10 p-3 text-sm text-goldSoft">
+          {notice}
+        </p>
+      )}
 
       <form onSubmit={handleSubmit} className="frame p-6 space-y-5">
         <div>
