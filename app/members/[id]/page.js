@@ -2,7 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
-import { normalizeFacebookUrl } from "@/lib/urls";
+import { getSocialPlatformLabel, normalizeFacebookUrl } from "@/lib/urls";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +43,7 @@ export default async function MemberDetailPage({ params }) {
   const birthDate = new Date(member.birthDate);
   const joinedAt = new Date(member.joinedAt);
   const facebookUrl = normalizeFacebookUrl(member.facebookUrl);
+  const socialPlatformLabel = getSocialPlatformLabel(facebookUrl);
 
   return (
     <div className="max-w-3xl mx-auto px-5 py-16">
@@ -80,7 +81,7 @@ export default async function MemberDetailPage({ params }) {
               rel="noreferrer"
               className="text-gold text-sm underline"
             >
-              Facebook
+              {socialPlatformLabel}
             </a>
           )}
           {member.bio && (

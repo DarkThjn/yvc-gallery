@@ -29,6 +29,16 @@ export default async function AdminRecruitmentPage() {
                 <p className="text-sm text-muted">
                   {s.email} {s.phone ? `· ${s.phone}` : ""}
                 </p>
+                {s.socialUrl && (
+                  <a
+                    href={s.socialUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-gold underline"
+                  >
+                    Facebook/Instagram
+                  </a>
+                )}
                 {s.studentInfo && <p className="text-sm text-muted">{s.studentInfo}</p>}
                 {s.birthDate && (
                   <p className="text-sm text-muted">

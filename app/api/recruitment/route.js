@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { notifyRecruitmentSubmission } from "@/lib/notifications";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import { RECRUITMENT_DEPARTMENTS } from "@/lib/recruitmentDepartments";
+import { normalizeSocialUrl } from "@/lib/urls";
 
 const VALID_DEPARTMENTS = new Set(RECRUITMENT_DEPARTMENTS);
 
@@ -24,7 +25,16 @@ export async function POST(req) {
   }
 
   const body = await req.json();
-  const { fullName, email, phone, studentInfo, birthDate, departments, reason } = body;
+  const {
+    fullName,
+    email,
+    phone,
+    socialUrl,
+    studentInfo,
+    birthDate,
+    departments,
+    reason,
+  } = body;
 
   if (!fullName || !email || !birthDate || !reason) {
     return NextResponse.json(
@@ -48,6 +58,19 @@ export async function POST(req) {
   }
 
   const selectedDepartments = [...new Set(departments)];
+  const normalizedSocialUrl = normalizeSocialUrl(socialUrl);
+  const hasSocialUrl =
+    typeof socialUrl === "string" && socialUrl.trim().length > 0;
+
+  if (
+    (socialUrl != null && typeof socialUrl !== "string") ||
+    (hasSocialUrl && !normalizedSocialUrl)
+  ) {
+    return NextResponse.json(
+      { error: "Link phải thuộc Facebook hoặc Instagram." },
+      { status: 400 },
+    );
+  }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Email không hợp lệ." }, { status: 400 });
@@ -65,6 +88,7 @@ export async function POST(req) {
       fullName,
       email,
       phone,
+      socialUrl: normalizedSocialUrl,
       studentInfo,
       birthDate: new Date(birthDate),
       departments: selectedDepartments,

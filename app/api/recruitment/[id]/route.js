@@ -45,6 +45,9 @@ export async function PATCH(req, { params }) {
     const contactLines = [
       `Email: ${submission.email}`,
       submission.phone ? `SĐT: ${submission.phone}` : null,
+      submission.socialUrl
+        ? `Facebook/Instagram: ${submission.socialUrl}`
+        : null,
       submission.studentInfo ? `Thông tin học tập: ${submission.studentInfo}` : null,
       submission.departments.length > 0
         ? `Phòng ban đăng ký: ${submission.departments.join(", ")}`
@@ -61,6 +64,7 @@ export async function PATCH(req, { params }) {
           role: "Thành viên",
           bio: contactLines.join("\n"),
           birthDate,
+          facebookUrl: submission.socialUrl,
           isActive: true,
           isAlumni: false
         }

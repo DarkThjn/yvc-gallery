@@ -121,10 +121,10 @@ export default function MemberForm({ member }) {
       </div>
 
       <div>
-        <label className="label">Facebook</label>
+        <label className="label">Facebook/Instagram</label>
         <input
           className="input"
-          placeholder="facebook.com/ten-tai-khoan hoặc fb.com/ten-tai-khoan"
+          placeholder="facebook.com/ten-tai-khoan hoặc instagram.com/ten-tai-khoan"
           value={form.facebookUrl}
           onChange={update("facebookUrl")}
         />

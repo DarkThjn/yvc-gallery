@@ -84,6 +84,7 @@ model RecruitmentSubmission {
   fullName         String
   email            String
   phone            String?
+  socialUrl        String?
   studentInfo      String? // lớp/khoá/trường tuỳ CLB
   birthDate        DateTime?
   departments      String[]  @default([])
