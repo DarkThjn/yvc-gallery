@@ -25,8 +25,8 @@ export default function MemberDirectory({ currentMembers, alumniMembers }) {
 
   return (
     <div>
-      <div className="frame mb-10 grid gap-4 p-4 md:grid-cols-[1fr_auto] md:items-center">
-        <label>
+      <div className="frame mb-10 grid gap-4 p-4 md:grid-cols-[minmax(16rem,1fr)_minmax(0,2fr)] md:items-start">
+        <label className="min-w-0">
           <span className="label">Tìm thành viên</span>
           <input
             className="input"
@@ -36,7 +36,7 @@ export default function MemberDirectory({ currentMembers, alumniMembers }) {
           />
         </label>
 
-        <div>
+        <div className="min-w-0">
           <p className="label">Lọc theo vai trò</p>
           <div className="flex flex-wrap gap-2">
             {roles.map((item) => (
