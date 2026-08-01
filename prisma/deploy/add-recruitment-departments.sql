@@ -1,2 +1,0 @@
-ALTER TABLE "RecruitmentSubmission"
-ADD COLUMN IF NOT EXISTS "departments" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];
