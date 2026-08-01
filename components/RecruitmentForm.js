@@ -10,6 +10,7 @@ export default function RecruitmentForm() {
     fullName: "",
     email: "",
     phone: "",
+    socialUrl: "",
     studentInfo: "",
     birthDate: "",
     departments: [],
@@ -102,6 +103,17 @@ export default function RecruitmentForm() {
             onChange={update("phone")}
           />
         </div>
+      </div>
+      <div>
+        <label className="label">Link Facebook/Instagram</label>
+        <input
+          className="input"
+          inputMode="url"
+          autoComplete="url"
+          placeholder="phục vụ cho mục đích liên lạc + thông báo kết quả ^^)"
+          value={form.socialUrl}
+          onChange={update("socialUrl")}
+        />
       </div>
       <div>
         <label className="label">Lớp / Trường / Khóa</label>
