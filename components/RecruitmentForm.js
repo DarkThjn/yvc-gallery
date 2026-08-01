@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { RECRUITMENT_DEPARTMENTS } from "@/lib/recruitmentDepartments";
 
 export default function RecruitmentForm() {
   const [status, setStatus] = useState("idle"); // idle | sending | done | error
@@ -11,6 +12,7 @@ export default function RecruitmentForm() {
     phone: "",
     studentInfo: "",
     birthDate: "",
+    departments: [],
     reason: "",
   });
 
@@ -19,8 +21,24 @@ export default function RecruitmentForm() {
       setForm((current) => ({ ...current, [field]: event.target.value }));
   }
 
+  function toggleDepartment(department) {
+    setForm((current) => ({
+      ...current,
+      departments: current.departments.includes(department)
+        ? current.departments.filter((item) => item !== department)
+        : [...current.departments, department],
+    }));
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (form.departments.length === 0) {
+      setError("Vui lòng chọn ít nhất một phòng ban.");
+      setStatus("error");
+      return;
+    }
+
     setStatus("sending");
     setError("");
 
@@ -103,6 +121,30 @@ export default function RecruitmentForm() {
           onChange={update("birthDate")}
         />
       </div>
+      <fieldset aria-describedby="departments-help" aria-required="true">
+        <legend className="label">Chọn phòng ban *</legend>
+        <p id="departments-help" className="mb-3 text-xs text-muted">
+          Bạn có thể chọn nhiều phòng ban.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {RECRUITMENT_DEPARTMENTS.map((department) => (
+            <label
+              key={department}
+              className="flex cursor-pointer items-center gap-3 rounded-frame border border-border bg-surfaceLight px-3.5 py-3 text-sm transition-colors hover:border-gold"
+            >
+              <input
+                type="checkbox"
+                name="departments"
+                value={department}
+                checked={form.departments.includes(department)}
+                onChange={() => toggleDepartment(department)}
+                className="h-4 w-4 accent-gold"
+              />
+              <span>{department}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
       <div>
         <label className="label">Vì sao bạn muốn tham gia câu lạc bộ? *</label>
         <textarea
