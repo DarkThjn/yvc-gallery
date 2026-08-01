@@ -105,8 +105,11 @@ export default function RecruitmentForm() {
         </div>
       </div>
       <div>
-        <label className="label">Link Facebook/Instagram</label>
+        <label className="label" htmlFor="recruitment-social-url">
+          Link Facebook/Instagram
+        </label>
         <input
+          id="recruitment-social-url"
           className="input"
           inputMode="url"
           autoComplete="url"
