@@ -7,7 +7,20 @@ export async function GET(request) {
   }
 
   const response = NextResponse.redirect(loginUrl);
-  response.cookies.delete("next-auth.session-token");
-  response.cookies.delete("__Secure-next-auth.session-token");
+  const sessionCookiePrefixes = [
+    "next-auth.session-token",
+    "__Secure-next-auth.session-token"
+  ];
+
+  for (const cookie of request.cookies.getAll()) {
+    const isSessionCookie = sessionCookiePrefixes.some(
+      (prefix) => cookie.name === prefix || cookie.name.startsWith(`${prefix}.`)
+    );
+    if (isSessionCookie) response.cookies.delete(cookie.name);
+  }
+
+  for (const prefix of sessionCookiePrefixes) {
+    response.cookies.delete(prefix);
+  }
   return response;
 }
