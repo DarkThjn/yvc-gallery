@@ -24,7 +24,7 @@ export default function AdminLoginPage() {
 
     setLoading(false);
     if (res?.error) {
-      setError("Email hoặc mật khẩu không đúng.");
+      setError("Tên đăng nhập/email hoặc mật khẩu không đúng.");
       return;
     }
     router.push("/admin");
@@ -38,10 +38,11 @@ export default function AdminLoginPage() {
 
       <form onSubmit={handleSubmit} className="frame p-6 space-y-5">
         <div>
-          <label className="label">Email</label>
+          <label className="label">Tên đăng nhập hoặc email</label>
           <input
             required
-            type="email"
+            type="text"
+            autoComplete="username"
             className="input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -52,6 +53,7 @@ export default function AdminLoginPage() {
           <input
             required
             type="password"
+            autoComplete="current-password"
             className="input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
