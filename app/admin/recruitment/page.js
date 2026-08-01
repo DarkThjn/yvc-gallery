@@ -35,6 +35,11 @@ export default async function AdminRecruitmentPage() {
                     Ngày sinh: {new Date(s.birthDate).toLocaleDateString("vi-VN")}
                   </p>
                 )}
+                {s.departments.length > 0 && (
+                  <p className="mt-1 text-sm text-gold">
+                    Phòng ban: {s.departments.join(", ")}
+                  </p>
+                )}
                 {s.acceptedMemberId && (
                   <p className="text-xs text-gold mt-1">Đã tạo hồ sơ thành viên</p>
                 )}

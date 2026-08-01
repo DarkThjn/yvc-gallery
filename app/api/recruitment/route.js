@@ -4,6 +4,9 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { notifyRecruitmentSubmission } from "@/lib/notifications";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
+import { RECRUITMENT_DEPARTMENTS } from "@/lib/recruitmentDepartments";
+
+const VALID_DEPARTMENTS = new Set(RECRUITMENT_DEPARTMENTS);
 
 // Công khai: bất kỳ ai cũng gửi được đơn ứng tuyển
 export async function POST(req) {
@@ -21,7 +24,7 @@ export async function POST(req) {
   }
 
   const body = await req.json();
-  const { fullName, email, phone, studentInfo, birthDate, reason } = body;
+  const { fullName, email, phone, studentInfo, birthDate, departments, reason } = body;
 
   if (!fullName || !email || !birthDate || !reason) {
     return NextResponse.json(
@@ -29,6 +32,22 @@ export async function POST(req) {
       { status: 400 },
     );
   }
+
+  if (
+    !Array.isArray(departments) ||
+    departments.length === 0 ||
+    departments.some(
+      (department) =>
+        typeof department !== "string" || !VALID_DEPARTMENTS.has(department),
+    )
+  ) {
+    return NextResponse.json(
+      { error: "Vui lòng chọn ít nhất một phòng ban hợp lệ." },
+      { status: 400 },
+    );
+  }
+
+  const selectedDepartments = [...new Set(departments)];
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Email không hợp lệ." }, { status: 400 });
@@ -48,6 +67,7 @@ export async function POST(req) {
       phone,
       studentInfo,
       birthDate: new Date(birthDate),
+      departments: selectedDepartments,
       reason,
     },
   });

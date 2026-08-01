@@ -46,6 +46,9 @@ export async function PATCH(req, { params }) {
       `Email: ${submission.email}`,
       submission.phone ? `SĐT: ${submission.phone}` : null,
       submission.studentInfo ? `Thông tin học tập: ${submission.studentInfo}` : null,
+      submission.departments.length > 0
+        ? `Phòng ban đăng ký: ${submission.departments.join(", ")}`
+        : null,
       "",
       "Lý do ứng tuyển:",
       submission.reason
