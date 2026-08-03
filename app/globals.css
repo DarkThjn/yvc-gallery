@@ -331,7 +331,7 @@
   .bend-scroll-content {
     display: grid;
     gap: 56px;
-    padding: 150px clamp(18px, 5vw, 72px);
+    padding: 64px clamp(18px, 5vw, 72px) 132px;
   }
 
   .bend-memory-panel {
