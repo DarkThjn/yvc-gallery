@@ -9,12 +9,13 @@ datasource db {
 }
 
 model AdminUser {
-  id              String   @id @default(cuid())
-  email           String   @unique
-  passwordHash    String
-  activeSessionId String?
-  name            String
-  createdAt       DateTime @default(now())
+  id                  String    @id @default(cuid())
+  email               String    @unique
+  passwordHash        String
+  activeSessionId     String?
+  activeSessionSeenAt DateTime?
+  name                String
+  createdAt           DateTime  @default(now())
 }
 
 model Member {

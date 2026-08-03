@@ -3,16 +3,45 @@
 import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 
+const HEARTBEAT_INTERVAL_MS = 15_000;
+
 export default function AdminSessionGuard() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [signingOut, setSigningOut] = useState(false);
 
   useEffect(() => {
-    if (session?.error !== "SessionReplaced" || signingOut) return;
+    if (status !== "authenticated" || signingOut) return;
 
-    setSigningOut(true);
-    void signOut({ callbackUrl: "/admin/login?reason=session-replaced" });
-  }, [session?.error, signingOut]);
+    let stopped = false;
+
+    async function heartbeat() {
+      try {
+        const response = await fetch("/api/admin/session/heartbeat", {
+          method: "POST",
+          cache: "no-store"
+        });
+
+        if (!stopped && (response.status === 401 || response.status === 409)) {
+          setSigningOut(true);
+          void signOut({ callbackUrl: "/admin/login?reason=session-replaced" });
+        }
+      } catch {
+        // Keep the current admin session if the network blips.
+      }
+    }
+
+    void heartbeat();
+    const intervalId = window.setInterval(heartbeat, HEARTBEAT_INTERVAL_MS);
+    window.addEventListener("focus", heartbeat);
+    document.addEventListener("visibilitychange", heartbeat);
+
+    return () => {
+      stopped = true;
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", heartbeat);
+      document.removeEventListener("visibilitychange", heartbeat);
+    };
+  }, [session?.user?.sessionId, signingOut, status]);
 
   if (!signingOut) return null;
 

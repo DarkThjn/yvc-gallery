@@ -48,7 +48,7 @@ export async function POST(request) {
       id: session.user.id,
       activeSessionId: session.user.sessionId
     },
-    data: { passwordHash, activeSessionId: null }
+    data: { passwordHash, activeSessionId: null, activeSessionSeenAt: null }
   });
 
   if (updated.count !== 1) {

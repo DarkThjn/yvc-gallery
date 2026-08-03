@@ -5,7 +5,7 @@ import AdminSessionGuard from "./AdminSessionGuard";
 
 export default function AdminSessionProvider({ children, session }) {
   return (
-    <SessionProvider session={session} refetchInterval={10} refetchOnWindowFocus>
+    <SessionProvider session={session} refetchOnWindowFocus={false}>
       <AdminSessionGuard />
       {children}
     </SessionProvider>
