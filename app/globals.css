@@ -328,6 +328,22 @@
     perspective: 900px;
   }
 
+  .bend-scroll-frame--native {
+    overflow: hidden;
+  }
+
+  .bend-scroll-frame--native > div {
+    border-radius: inherit;
+    overscroll-behavior: contain;
+    scroll-snap-type: y proximity;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(184, 95, 106, 0.38) rgba(255, 249, 251, 0.74);
+  }
+
+  .bend-scroll-frame--native > canvas {
+    border-radius: inherit;
+  }
+
   .bend-scroll-content {
     display: grid;
     gap: 56px;
