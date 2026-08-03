@@ -115,4 +115,406 @@
       background-color: rgba(255, 249, 251, 0.88);
     }
   }
+
+  .birthday-glow-frame {
+    --birthday-glow-a: rgba(242, 182, 199, 0.74);
+    --birthday-glow-b: rgba(255, 219, 167, 0.82);
+    --birthday-glow-c: rgba(255, 246, 251, 0.92);
+    position: relative;
+    display: block;
+    border-radius: 6px;
+    isolation: isolate;
+  }
+
+  .birthday-glow-frame > .frame {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.92);
+  }
+
+  .birthday-glow-frame::before,
+  .birthday-glow-frame::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .birthday-glow-frame::before {
+    z-index: 0;
+    inset: -12px;
+    background:
+      radial-gradient(circle at 16% 8%, var(--birthday-glow-b), transparent 20%),
+      radial-gradient(circle at 78% 0%, var(--birthday-glow-a), transparent 22%),
+      radial-gradient(circle at 92% 76%, rgba(242, 182, 199, 0.44), transparent 20%),
+      conic-gradient(
+        from 0deg,
+        rgba(242, 182, 199, 0),
+        var(--birthday-glow-a),
+        var(--birthday-glow-b),
+        rgba(255, 255, 255, 0.66),
+        var(--birthday-glow-a),
+        rgba(242, 182, 199, 0)
+      );
+    filter: blur(12px);
+    opacity: 0.72;
+    transform: translateZ(0);
+  }
+
+  .birthday-glow-frame::after {
+    z-index: 2;
+    inset: -2px;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg,
+      rgba(242, 182, 199, 0.05),
+      rgba(242, 182, 199, 0.95),
+      rgba(255, 221, 171, 0.95),
+      rgba(255, 255, 255, 0.9),
+      rgba(184, 95, 106, 0.35),
+      rgba(242, 182, 199, 0.05)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
+  .birthday-glow-frame--mini::before {
+    inset: -8px;
+    filter: blur(9px);
+    opacity: 0.45;
+  }
+
+  .birthday-glow-frame--mini::after {
+    inset: -1px;
+    opacity: 0.8;
+  }
+
+  .bend-showcase {
+    position: relative;
+    overflow: hidden;
+    min-height: calc(100svh - 96px);
+    border-top: 1px solid rgba(242, 182, 199, 0.42);
+    border-bottom: 1px solid rgba(242, 182, 199, 0.42);
+    background:
+      radial-gradient(circle at 18% 8%, rgba(242, 182, 199, 0.42), transparent 28%),
+      radial-gradient(circle at 86% 14%, rgba(255, 219, 167, 0.42), transparent 24%),
+      linear-gradient(180deg, #fff9fb 0%, #ffffff 52%, #fff3f7 100%);
+  }
+
+  .bend-showcase--compact {
+    min-height: 720px;
+  }
+
+  .bend-shell {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 44px 0 52px;
+  }
+
+  .bend-kicker,
+  .bend-caption-row,
+  .bend-actions,
+  .bend-thumbs {
+    display: flex;
+  }
+
+  .bend-kicker {
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+    color: rgba(184, 95, 106, 0.78);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+  }
+
+  .bend-stage {
+    position: relative;
+    perspective: 1180px;
+  }
+
+  .bend-slide {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    min-height: 360px;
+    overflow: visible;
+    border: 1px solid rgba(240, 201, 213, 0.72);
+    border-radius: 6px;
+    box-shadow:
+      0 36px 90px rgba(184, 95, 106, 0.18),
+      0 16px 38px rgba(85, 49, 59, 0.08);
+    transform: rotateX(0deg) rotateY(-3deg);
+    transform-style: preserve-3d;
+  }
+
+  .bend-face,
+  .bend-fold {
+    background-image:
+      linear-gradient(rgba(255, 249, 251, 0.08), rgba(255, 249, 251, 0.08)),
+      var(--bend-image);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .bend-face {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: inherit;
+    background-position: center;
+  }
+
+  .bend-face::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(85, 49, 59, 0.18), transparent 24%, transparent 76%, rgba(85, 49, 59, 0.16)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 42%, rgba(255, 249, 251, 0.2));
+    pointer-events: none;
+  }
+
+  .bend-fold {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 23%;
+    border: 1px solid rgba(255, 249, 251, 0.36);
+    filter: brightness(0.93) saturate(0.98);
+    transform-style: preserve-3d;
+    z-index: 2;
+  }
+
+  .bend-fold--top {
+    top: 0;
+    border-radius: 6px 6px 0 0;
+    background-position: center top;
+    box-shadow: inset 0 -34px 36px rgba(85, 49, 59, 0.16);
+    transform: translateY(-1px) rotateX(-62deg);
+    transform-origin: top center;
+  }
+
+  .bend-fold--bottom {
+    bottom: 0;
+    border-radius: 0 0 6px 6px;
+    background-position: center bottom;
+    box-shadow: inset 0 34px 36px rgba(255, 249, 251, 0.34);
+    transform: translateY(1px) rotateX(58deg);
+    transform-origin: bottom center;
+  }
+
+  .bend-caption-row {
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 30px;
+  }
+
+  .bend-title {
+    max-width: 760px;
+    color: #55313b;
+    font-size: 34px;
+    line-height: 1.12;
+  }
+
+  .bend-copy {
+    max-width: 680px;
+    margin-top: 10px;
+    color: #8d6670;
+  }
+
+  .bend-actions {
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .bend-actions button,
+  .bend-link {
+    display: inline-flex;
+    min-width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(240, 201, 213, 0.92);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.82);
+    color: #55313b;
+    transition:
+      border-color 180ms ease,
+      color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .bend-actions button {
+    font-family: var(--font-display);
+    font-size: 22px;
+  }
+
+  .bend-link {
+    width: auto;
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .bend-actions button:hover,
+  .bend-link:hover {
+    border-color: rgba(184, 95, 106, 0.75);
+    color: #b85f6a;
+    transform: translateY(-1px);
+  }
+
+  .bend-thumbs {
+    gap: 10px;
+    margin-top: 24px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .bend-thumbs button {
+    width: 76px;
+    height: 54px;
+    flex: 0 0 auto;
+    border: 1px solid rgba(240, 201, 213, 0.86);
+    border-radius: 4px;
+    background-color: #fff0f5;
+    background-position: center;
+    background-size: cover;
+    opacity: 0.58;
+    transition:
+      opacity 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .bend-thumbs button:hover,
+  .bend-thumbs button.is-active {
+    border-color: rgba(184, 95, 106, 0.9);
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .birthday-glow-frame::before {
+      animation: birthday-aura 4.8s ease-in-out infinite alternate;
+    }
+
+    .birthday-glow-frame::after {
+      animation: birthday-ring 7.5s linear infinite;
+    }
+
+    .birthday-glow-frame--mini::before {
+      animation-duration: 6.5s;
+    }
+
+    .birthday-glow-frame--mini::after {
+      animation-duration: 10s;
+    }
+
+    .bend-slide {
+      animation: bend-float 8s ease-in-out infinite alternate;
+    }
+
+    .bend-fold--top {
+      animation: bend-top 7.2s ease-in-out infinite alternate;
+    }
+
+    .bend-fold--bottom {
+      animation: bend-bottom 7.2s ease-in-out infinite alternate;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .bend-showcase,
+    .bend-showcase--compact {
+      min-height: auto;
+    }
+
+    .bend-shell {
+      width: min(100% - 24px, 620px);
+      padding: 28px 0 36px;
+    }
+
+    .bend-slide {
+      min-height: 0;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      transform: none;
+    }
+
+    .bend-fold {
+      display: none;
+    }
+
+    .bend-caption-row {
+      display: block;
+      margin-top: 22px;
+    }
+
+    .bend-title {
+      font-size: 28px;
+    }
+
+    .bend-actions {
+      justify-content: flex-start;
+      margin-top: 18px;
+    }
+
+    .bend-thumbs button {
+      width: 62px;
+      height: 48px;
+    }
+  }
+}
+
+@keyframes birthday-aura {
+  from {
+    opacity: 0.48;
+    transform: translate3d(0, 2px, 0) scale(0.98);
+  }
+  to {
+    opacity: 0.82;
+    transform: translate3d(0, -2px, 0) scale(1.02);
+  }
+}
+
+@keyframes birthday-ring {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bend-float {
+  from {
+    transform: rotateX(0deg) rotateY(-3deg) translateY(0);
+  }
+  to {
+    transform: rotateX(1.5deg) rotateY(3deg) translateY(-4px);
+  }
+}
+
+@keyframes bend-top {
+  from {
+    transform: translateY(-1px) rotateX(-58deg);
+  }
+  to {
+    transform: translateY(-1px) rotateX(-67deg);
+  }
+}
+
+@keyframes bend-bottom {
+  from {
+    transform: translateY(1px) rotateX(54deg);
+  }
+  to {
+    transform: translateY(1px) rotateX(63deg);
+  }
 }

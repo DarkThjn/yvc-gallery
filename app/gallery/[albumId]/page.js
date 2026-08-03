@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AlbumGalleryLightbox from "@/components/AlbumGalleryLightbox";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
@@ -52,6 +53,13 @@ export default async function AlbumDetailPage({ params }) {
       <h1 className="text-3xl mb-2">{album.title}</h1>
       {album.description && (
         <p className="text-muted mb-8 max-w-2xl">{album.description}</p>
+      )}
+      {album.photos.length > 0 && (
+        <div className="mb-8">
+          <Link href={`/gallery/${album.slug}/showcase`} className="btn-gold">
+            Showcase demo
+          </Link>
+        </div>
       )}
 
       {album.photos.length === 0 ? (
