@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Bend from "./CanvasBend";
+import BendViewport from "./BendViewport";
 
 export default function GalleryBendShowcase({
   albumTitle,
@@ -39,18 +39,7 @@ export default function GalleryBendShowcase({
           )}
         </div>
 
-        <Bend
-          className="bend-scroll-frame bend-scroll-frame--native"
-          zone={220}
-          angle={82}
-          rounding={150}
-          perspective={720}
-          direction="in"
-          ease={240}
-          smoothing={0.1}
-          tumble={0.45}
-          tilt={0.35}
-        >
+        <BendViewport>
           <div className="bend-fold-guide bend-fold-guide--top" aria-hidden />
           <div className="bend-fold-guide bend-fold-guide--bottom" aria-hidden />
 
@@ -79,7 +68,7 @@ export default function GalleryBendShowcase({
               </article>
             ))}
           </div>
-        </Bend>
+        </BendViewport>
       </div>
     </section>
   );

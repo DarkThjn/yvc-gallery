@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-ink text-cream font-body;
     background-image: linear-gradient(
@@ -125,7 +130,7 @@
     isolation: isolate;
   }
 
-  .birthday-glow-frame > .frame {
+  .birthday-glow-frame .frame {
     position: relative;
     z-index: 2;
     overflow: hidden;
@@ -135,7 +140,7 @@
       0 0 0 1px rgba(242, 182, 199, 0.28);
   }
 
-  .birthday-glow-frame > .frame::after {
+  .birthday-glow-frame .frame::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -156,7 +161,19 @@
   .birthday-sparks {
     position: absolute;
     pointer-events: none;
-    border-radius: inherit;
+    border-radius: 6px;
+  }
+
+  .birthday-glow-frame--canvas .birthday-rim {
+    opacity: 0.45;
+  }
+
+  .birthday-glow-frame--canvas .birthday-flame {
+    opacity: 0.28;
+  }
+
+  .birthday-glow-frame--canvas .birthday-sparks {
+    opacity: 0.38;
   }
 
   .birthday-rim {
@@ -344,6 +361,21 @@
     border-radius: inherit;
   }
 
+  .bend-scroll-frame--native .bend-memory-panel {
+    animation: none !important;
+  }
+
+  .bend-scroll-frame.bend-fallback-ready > div {
+    scroll-snap-type: none;
+  }
+
+  .bend-scroll-frame.bend-fallback-ready .bend-memory-panel {
+    animation: none !important;
+    scroll-snap-align: none;
+    transform-origin: center center;
+    will-change: transform, opacity;
+  }
+
   .bend-scroll-content {
     display: grid;
     gap: 56px;
@@ -458,7 +490,7 @@
       animation: birthday-sparks-rise 2.8s ease-in-out infinite;
     }
 
-    .birthday-glow-frame > .frame::after {
+    .birthday-glow-frame .frame::after {
       animation: birthday-shimmer 3.8s ease-in-out infinite;
     }
 
