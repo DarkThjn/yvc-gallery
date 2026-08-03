@@ -45,6 +45,7 @@ export default async function EffectsDemoPage() {
           albumTitle={album.title}
           albumDescription={album.description}
           backHref={`/gallery/${album.slug}/showcase`}
+          backLabel="Mở showcase đầy đủ"
           photos={demoPhotos}
         />
       ) : (
