@@ -41,6 +41,14 @@ export default function BendViewport({ children }) {
     const state = new WeakMap();
     let raf = 0;
     let active = true;
+    let targetScroll = scroller.scrollTop;
+    let ignoreScrollUntil = 0;
+    let smoothWheel = false;
+    let lastFrameTime = 0;
+
+    const canSmoothWheel =
+      window.matchMedia("(pointer: fine)").matches &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function measurePanels() {
       panels = Array.from(scroller.querySelectorAll(".bend-memory-panel"));
@@ -64,8 +72,27 @@ export default function BendViewport({ children }) {
       };
     }
 
-    function applyFrame() {
+    function applyFrame(now = performance.now()) {
       if (!active) return;
+
+      const elapsed = lastFrameTime
+        ? Math.min((now - lastFrameTime) / 1000, 0.05)
+        : 1 / 60;
+      lastFrameTime = now;
+      const scrollEase = 1 - Math.exp(-elapsed / 0.24);
+      const panelEase = 1 - Math.exp(-elapsed / 0.16);
+
+      if (smoothWheel) {
+        const delta = targetScroll - scroller.scrollTop;
+        if (Math.abs(delta) > 0.35) {
+          ignoreScrollUntil = performance.now() + 80;
+          scroller.scrollTop += delta * scrollEase;
+        } else {
+          ignoreScrollUntil = performance.now() + 80;
+          scroller.scrollTop = targetScroll;
+          smoothWheel = false;
+        }
+      }
 
       const scrollerRect = scroller.getBoundingClientRect();
       const height = scroller.clientHeight;
@@ -82,10 +109,10 @@ export default function BendViewport({ children }) {
             opacity: target.opacity,
           };
 
-        current.rotate = lerp(current.rotate, target.rotate, 0.22);
-        current.y = lerp(current.y, target.y, 0.22);
-        current.scale = lerp(current.scale, target.scale, 0.22);
-        current.opacity = lerp(current.opacity, target.opacity, 0.2);
+        current.rotate = lerp(current.rotate, target.rotate, panelEase);
+        current.y = lerp(current.y, target.y, panelEase);
+        current.scale = lerp(current.scale, target.scale, panelEase);
+        current.opacity = lerp(current.opacity, target.opacity, panelEase);
 
         const delta =
           Math.abs(current.rotate - target.rotate) +
@@ -103,6 +130,8 @@ export default function BendViewport({ children }) {
         state.set(panel, current);
       }
 
+      settling = settling || smoothWheel;
+
       if (settling) {
         raf = requestAnimationFrame(applyFrame);
       } else {
@@ -111,13 +140,50 @@ export default function BendViewport({ children }) {
     }
 
     function schedule() {
-      if (!raf) raf = requestAnimationFrame(applyFrame);
+      if (!raf) {
+        lastFrameTime = 0;
+        raf = requestAnimationFrame(applyFrame);
+      }
+    }
+
+    function normalizeWheel(event) {
+      if (event.deltaMode === 1) return event.deltaY * 18;
+      if (event.deltaMode === 2) return event.deltaY * scroller.clientHeight;
+      return event.deltaY;
+    }
+
+    function onWheel(event) {
+      if (!canSmoothWheel || event.ctrlKey) return;
+
+      const maxScroll = scroller.scrollHeight - scroller.clientHeight;
+      if (maxScroll <= 0) return;
+
+      const delta = normalizeWheel(event) * 0.72;
+      const nextTarget = clamp(targetScroll + delta, 0, maxScroll);
+      const atStart = targetScroll <= 0.5 && delta < 0;
+      const atEnd = targetScroll >= maxScroll - 0.5 && delta > 0;
+
+      if (nextTarget === targetScroll || atStart || atEnd) return;
+
+      event.preventDefault();
+      targetScroll = nextTarget;
+      smoothWheel = true;
+      schedule();
+    }
+
+    function onNativeScroll() {
+      if (performance.now() > ignoreScrollUntil) {
+        targetScroll = scroller.scrollTop;
+        smoothWheel = false;
+      }
+      schedule();
     }
 
     const resizeObserver = new ResizeObserver(measurePanels);
     resizeObserver.observe(scroller);
     panels.forEach((panel) => resizeObserver.observe(panel));
-    scroller.addEventListener("scroll", schedule, { passive: true });
+    scroller.addEventListener("wheel", onWheel, { passive: false });
+    scroller.addEventListener("scroll", onNativeScroll, { passive: true });
     window.addEventListener("resize", measurePanels);
 
     schedule();
@@ -126,7 +192,8 @@ export default function BendViewport({ children }) {
       active = false;
       cancelAnimationFrame(raf);
       resizeObserver.disconnect();
-      scroller.removeEventListener("scroll", schedule);
+      scroller.removeEventListener("wheel", onWheel);
+      scroller.removeEventListener("scroll", onNativeScroll);
       window.removeEventListener("resize", measurePanels);
       frame.classList.remove("bend-fallback-ready");
       delete frame.dataset.bendMode;
