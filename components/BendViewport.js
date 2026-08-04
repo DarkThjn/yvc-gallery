@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Bend, { supportsHtmlInCanvas } from "./CanvasBend";
+import Bend from "./CanvasBend";
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
@@ -23,11 +23,6 @@ export default function BendViewport({ children }) {
     const scope = scopeRef.current;
     const frame = scope?.querySelector(".bend-scroll-frame");
     if (!frame) return undefined;
-
-    if (supportsHtmlInCanvas()) {
-      frame.dataset.bendMode = "native";
-      return undefined;
-    }
 
     const scroller = Array.from(frame.children).find(
       (child) => child.tagName === "DIV",
@@ -217,6 +212,7 @@ export default function BendViewport({ children }) {
         smoothing={0.16}
         tumble={0.35}
         tilt={0.25}
+        enableNative={false}
       >
         {children}
       </Bend>

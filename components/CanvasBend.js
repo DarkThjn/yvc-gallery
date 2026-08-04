@@ -826,7 +826,7 @@ function createBend(elements, options = {}) {
 }
 const emptySubscribe = () => () => {
 };
-function Bend({ children, className, style, ...options }) {
+function Bend({ children, className, style, enableNative = false, ...options }) {
   const sourceRef = useRef(null);
   const contentRef = useRef(null);
   const outputRef = useRef(null);
@@ -838,7 +838,7 @@ function Bend({ children, className, style, ...options }) {
     supportsHtmlInCanvas,
     () => false
   );
-  const native = supported && !failed;
+  const native = enableNative && supported && !failed;
   useEffect(() => {
     if (!native) return;
     const source = sourceRef.current;

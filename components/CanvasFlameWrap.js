@@ -356,7 +356,7 @@ function createFlameWrap(elements, options = {}) {
   if (!gl || gl.isContextLost()) return null;
   const sourceCtx = source.getContext("2d");
   const paintable = source;
-  const htmlInCanvas = Boolean(
+  const htmlInCanvas = !options.forceFallback && Boolean(
     sourceCtx && typeof sourceCtx.drawElementImage === "function" && typeof paintable.requestPaint === "function"
   );
   let contentDirty = false;
@@ -603,6 +603,7 @@ function FlameWrap({
   children,
   className,
   style,
+  enableNative = false,
   ...options
 }) {
   const sourceRef = useRef(null);
@@ -616,7 +617,7 @@ function FlameWrap({
     supportsHtmlInCanvas,
     () => false
   );
-  const native = supported && !failed;
+  const native = enableNative && supported && !failed;
   const reach = Math.round(Math.max(options.height ?? 170, 24) * 1.5) + 40;
   const glow = Math.round(Math.max(options.spread ?? 8, 8) * 3) + 16;
   useEffect(() => {
@@ -626,7 +627,7 @@ function FlameWrap({
     if (!source || !content || !output) return;
     instanceRef.current = createFlameWrap(
       { source, content, output },
-      initialOptions
+      { ...initialOptions, forceFallback: !native }
     );
     if (native && !instanceRef.current) setFailed(true);
     return () => {
@@ -635,7 +636,7 @@ function FlameWrap({
     };
   }, [initialOptions, native]);
   useEffect(() => {
-    instanceRef.current?.setOptions(options);
+    instanceRef.current?.setOptions({ ...options, forceFallback: !native });
   });
   return <div className={className} style={{ position: "relative", ...style }}>
       <canvas
