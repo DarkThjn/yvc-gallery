@@ -40,22 +40,22 @@ function TodaySpotlight({ members }) {
         >
           {members.map((m) => (
             <div key={m.id} className="w-56 shrink-0">
-              <BirthdayGlowFrame variant="spotlight">
-              <div className="frame p-3">
-                <div className="relative w-full aspect-[4/5] overflow-hidden rounded-frame bg-surfaceLight">
-                  {m.photoUrl ? (
-                    <Image
-                      src={m.photoUrl}
-                      alt={m.fullName}
-                      fill
-                      className="object-cover"
-                      sizes="224px"
-                    />
-                  ) : (
-                    <PlaceholderPortrait name={m.fullName} />
-                  )}
+              <BirthdayGlowFrame>
+                <div className="frame p-3">
+                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-frame bg-surfaceLight">
+                    {m.photoUrl ? (
+                      <Image
+                        src={m.photoUrl}
+                        alt={m.fullName}
+                        fill
+                        className="object-cover"
+                        sizes="224px"
+                      />
+                    ) : (
+                      <PlaceholderPortrait name={m.fullName} />
+                    )}
+                  </div>
                 </div>
-              </div>
               </BirthdayGlowFrame>
               <div className="mt-3">
                 <p className="font-display text-lg text-cream">{m.fullName}</p>
@@ -78,8 +78,7 @@ function MonthWall({ members, monthLabel }) {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-5">
           {members.map((m) => (
-            <BirthdayGlowFrame key={m.id} variant="mini">
-            <div className="frame p-2.5 text-center">
+            <div key={m.id} className="frame p-2.5 text-center">
               <div className="relative w-full aspect-square overflow-hidden rounded-frame bg-surfaceLight mb-2">
                 {m.photoUrl ? (
                   <Image
@@ -96,7 +95,6 @@ function MonthWall({ members, monthLabel }) {
               <p className="text-sm text-cream leading-tight truncate">{m.fullName}</p>
               <p className="plaque-label !text-[10px] mt-1">Ngày {m.day}</p>
             </div>
-            </BirthdayGlowFrame>
           ))}
         </div>
       </div>

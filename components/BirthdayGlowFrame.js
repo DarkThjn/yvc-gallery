@@ -27,32 +27,23 @@ const SPOTLIGHT_OPTIONS = {
 
 export default function BirthdayGlowFrame({
   children,
-  variant = "spotlight",
   className = "",
 }) {
   const rootClass =
-    `birthday-glow-frame birthday-glow-frame--${variant} ${className}`.trim();
-
-  if (variant !== "mini") {
-    return (
-      <FlameWrap
-        className={`${rootClass} birthday-glow-frame--canvas`}
-        {...SPOTLIGHT_OPTIONS}
-      >
-        <span className="birthday-flame" aria-hidden="true" />
-        <span className="birthday-rim" aria-hidden="true" />
-        <span className="birthday-sparks" aria-hidden="true" />
-        {children}
-      </FlameWrap>
-    );
-  }
+    `birthday-glow-frame birthday-glow-frame--spotlight ${className}`.trim();
 
   return (
-    <div className={rootClass}>
+    <FlameWrap
+      className={`${rootClass} birthday-glow-frame--canvas`}
+      {...SPOTLIGHT_OPTIONS}
+    >
       <span className="birthday-flame" aria-hidden="true" />
       <span className="birthday-rim" aria-hidden="true" />
       <span className="birthday-sparks" aria-hidden="true" />
+      <span className="birthday-heart birthday-heart--one" aria-hidden="true" />
+      <span className="birthday-heart birthday-heart--two" aria-hidden="true" />
+      <span className="birthday-heart birthday-heart--three" aria-hidden="true" />
       {children}
-    </div>
+    </FlameWrap>
   );
 }

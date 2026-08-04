@@ -236,249 +236,71 @@
       radial-gradient(circle at 88% 76%, rgba(var(--flame-hot), 0.85) 0 1.5px, transparent 2px);
   }
 
-  .birthday-glow-frame--mini .birthday-flame {
-    top: -14px;
-    height: 32px;
-    filter: blur(7px);
-    opacity: 0.42;
-  }
-
-  .birthday-glow-frame--mini .birthday-sparks {
-    display: none;
-  }
-
-  .birthday-glow-frame--mini .birthday-rim {
-    box-shadow:
-      0 0 9px rgba(var(--flame-color), 0.36),
-      0 0 20px rgba(var(--flame-hot), 0.14);
-  }
-
-  .bend-showcase {
-    position: relative;
-    border-top: 1px solid rgba(242, 182, 199, 0.42);
-    border-bottom: 1px solid rgba(242, 182, 199, 0.42);
-    background:
-      radial-gradient(circle at 18% 8%, rgba(242, 182, 199, 0.34), transparent 28%),
-      radial-gradient(circle at 86% 12%, rgba(255, 219, 167, 0.36), transparent 24%),
-      linear-gradient(180deg, #fff9fb 0%, #ffffff 52%, #fff3f7 100%);
-  }
-
-  .bend-shell {
-    width: min(1180px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 44px 0 56px;
-  }
-
-  .bend-kicker,
-  .bend-intro {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-
-  .bend-kicker {
-    margin-bottom: 16px;
-    color: rgba(184, 95, 106, 0.78);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-  }
-
-  .bend-intro {
-    align-items: flex-start;
-    margin-bottom: 24px;
-  }
-
-  .bend-title {
-    max-width: 760px;
-    color: #55313b;
-    font-size: 34px;
-    line-height: 1.12;
-  }
-
-  .bend-copy {
-    max-width: 700px;
-    margin-top: 10px;
-    color: #8d6670;
-  }
-
-  .bend-link {
-    display: inline-flex;
-    height: 44px;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    border: 1px solid rgba(240, 201, 213, 0.92);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.82);
-    color: #55313b;
-    padding: 0 16px;
-    font-size: 13px;
-    transition:
-      border-color 180ms ease,
-      color 180ms ease,
-      transform 180ms ease;
-  }
-
-  .bend-link:hover {
-    border-color: rgba(184, 95, 106, 0.75);
-    color: #b85f6a;
-    transform: translateY(-1px);
-  }
-
-  .bend-scroll-frame {
-    position: relative;
-    height: min(760px, calc(100svh - 168px));
-    min-height: 560px;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scroll-snap-type: y proximity;
-    border: 1px solid rgba(240, 201, 213, 0.78);
-    border-radius: 6px;
-    background:
-      linear-gradient(180deg, rgba(255, 249, 251, 0.78), rgba(255, 255, 255, 0.9)),
-      #fff9fb;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.7),
-      0 30px 80px rgba(184, 95, 106, 0.12);
-    perspective: 900px;
-  }
-
-  .bend-scroll-frame--native {
-    overflow: hidden;
-  }
-
-  .bend-scroll-frame--native > div {
-    border-radius: inherit;
-    overscroll-behavior: contain;
-    scroll-snap-type: y proximity;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(184, 95, 106, 0.38) rgba(255, 249, 251, 0.74);
-  }
-
-  .bend-scroll-frame--native > canvas {
-    border-radius: inherit;
-  }
-
-  .bend-scroll-frame--native .bend-memory-panel {
-    animation: none !important;
-  }
-
-  .bend-scroll-frame.bend-fallback-ready > div {
-    scroll-snap-type: none;
-  }
-
-  .bend-scroll-frame.bend-fallback-ready .bend-memory-panel {
-    animation: none !important;
-    scroll-snap-align: none;
-    transform-origin: center center;
-    will-change: transform, opacity;
-  }
-
-  .bend-scroll-content {
-    display: grid;
-    gap: 56px;
-    padding: 64px clamp(18px, 5vw, 72px) 132px;
-  }
-
-  .bend-memory-panel {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(220px, 0.7fr);
-    align-items: center;
-    gap: clamp(24px, 5vw, 56px);
-    min-height: 520px;
-    scroll-snap-align: center;
-    transform-style: preserve-3d;
-  }
-
-  .bend-photo-card {
-    position: relative;
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    border: 1px solid rgba(240, 201, 213, 0.92);
-    border-radius: 6px;
-    background: #fff0f5;
-    box-shadow:
-      0 24px 64px rgba(85, 49, 59, 0.14),
-      0 10px 22px rgba(184, 95, 106, 0.1);
-    transform-origin: center center;
-  }
-
-  .bend-photo-card::after {
-    content: "";
+  .birthday-heart {
     position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 34%, rgba(85, 49, 59, 0.18)),
-      linear-gradient(90deg, rgba(85, 49, 59, 0.18), transparent 22%, transparent 78%, rgba(85, 49, 59, 0.14));
-  }
-
-  .bend-memory-copy {
-    border-left: 1px solid rgba(240, 201, 213, 0.9);
-    padding-left: 24px;
-  }
-
-  .bend-memory-copy h2 {
-    margin-top: 10px;
-    color: #55313b;
-    font-size: 28px;
-    line-height: 1.18;
-  }
-
-  .bend-memory-copy p:last-child {
-    margin-top: 12px;
-    color: #8d6670;
-  }
-
-  .bend-fold-guide {
-    position: sticky;
-    left: 0;
-    right: 0;
     z-index: 5;
-    height: 126px;
+    width: 12px;
+    height: 12px;
     pointer-events: none;
-    overflow: hidden;
+    background: rgba(242, 182, 199, 0.92);
+    border-radius: 3px;
+    box-shadow:
+      0 0 10px rgba(242, 182, 199, 0.54),
+      0 0 18px rgba(255, 222, 171, 0.22);
+    transform: rotate(-45deg);
   }
 
-  .bend-fold-guide--top {
-    top: 0;
-    margin-bottom: -126px;
-  }
-
-  .bend-fold-guide--bottom {
-    bottom: 0;
-    margin-top: -126px;
-  }
-
-  .bend-fold-guide::before {
+  .birthday-heart::before,
+  .birthday-heart::after {
     content: "";
     position: absolute;
-    left: -8%;
-    right: -8%;
-    height: 170px;
-    border: 1px solid rgba(240, 201, 213, 0.68);
-    background:
-      linear-gradient(180deg, rgba(255, 249, 251, 0.94), rgba(255, 249, 251, 0.42)),
-      radial-gradient(ellipse at center, rgba(184, 95, 106, 0.14), transparent 68%);
-    filter: blur(0.1px);
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: inherit;
   }
 
-  .bend-fold-guide--top::before {
-    top: -98px;
-    border-radius: 0 0 48% 48%;
-    box-shadow: 0 20px 38px rgba(85, 49, 59, 0.12);
-    transform: rotateX(-56deg);
-    transform-origin: top center;
+  .birthday-heart::before {
+    top: -6px;
+    left: 0;
   }
 
-  .bend-fold-guide--bottom::before {
-    bottom: -98px;
-    border-radius: 48% 48% 0 0;
-    box-shadow: 0 -20px 38px rgba(85, 49, 59, 0.1);
-    transform: rotateX(56deg);
-    transform-origin: bottom center;
+  .birthday-heart::after {
+    top: 0;
+    left: 6px;
+  }
+
+  .birthday-heart--one {
+    top: -22px;
+    left: 16%;
+  }
+
+  .birthday-heart--two {
+    top: -30px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    opacity: 0.78;
+  }
+
+  .birthday-heart--two::before,
+  .birthday-heart--two::after {
+    width: 10px;
+    height: 10px;
+  }
+
+  .birthday-heart--two::before {
+    top: -5px;
+  }
+
+  .birthday-heart--two::after {
+    left: 5px;
+  }
+
+  .birthday-heart--three {
+    top: -18px;
+    right: 14%;
+    opacity: 0.86;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -494,62 +316,16 @@
       animation: birthday-shimmer 3.8s ease-in-out infinite;
     }
 
-    @supports (animation-timeline: view()) {
-      .bend-memory-panel {
-        animation: bend-panel-pass linear both;
-        animation-timeline: view();
-        animation-range: entry 8% exit 92%;
-      }
-    }
-  }
-
-  @media (max-width: 767px) {
-    .bend-shell {
-      width: min(100% - 24px, 620px);
-      padding: 30px 0 40px;
+    .birthday-heart {
+      animation: birthday-heart-float 3.2s ease-in-out infinite;
     }
 
-    .bend-intro {
-      display: block;
+    .birthday-heart--two {
+      animation-delay: 0.7s;
     }
 
-    .bend-link {
-      margin-top: 16px;
-    }
-
-    .bend-title {
-      font-size: 28px;
-    }
-
-    .bend-scroll-frame {
-      height: auto;
-      min-height: 0;
-      overflow: visible;
-      scroll-snap-type: none;
-    }
-
-    .bend-scroll-content {
-      gap: 32px;
-      padding: 22px;
-    }
-
-    .bend-memory-panel {
-      display: block;
-      min-height: 0;
-    }
-
-    .bend-photo-card {
-      aspect-ratio: 4 / 5;
-    }
-
-    .bend-memory-copy {
-      margin-top: 18px;
-      border-left: 0;
-      padding-left: 0;
-    }
-
-    .bend-fold-guide {
-      display: none;
+    .birthday-heart--three {
+      animation-delay: 1.15s;
     }
   }
 }
@@ -599,18 +375,19 @@
   }
 }
 
-@keyframes bend-panel-pass {
+@keyframes birthday-heart-float {
   0% {
-    opacity: 0.28;
-    transform: rotateX(-18deg) translateY(56px) scale(0.94);
+    opacity: 0.58;
+    transform: translateY(3px) rotate(-45deg) scale(0.9);
   }
-  28%,
-  72% {
-    opacity: 1;
-    transform: rotateX(0deg) translateY(0) scale(1);
+
+  50% {
+    opacity: 0.9;
+    transform: translateY(-4px) rotate(-45deg) scale(1);
   }
+
   100% {
-    opacity: 0.32;
-    transform: rotateX(18deg) translateY(-56px) scale(0.94);
+    opacity: 0.58;
+    transform: translateY(3px) rotate(-45deg) scale(0.9);
   }
 }
