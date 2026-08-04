@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
 
-const googleAnalyticsId = "G-TE8TZXXZ6N";
+const googleAnalyticsId = "G-0J086W0NWF";
 
 const fraunces = Fraunces({
   subsets: ["latin", "vietnamese"],
