@@ -1,9 +1,12 @@
 import { Fraunces, IBM_Plex_Mono, Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
+
+const googleAnalyticsId = "G-TE8TZXXZ6N";
 
 const fraunces = Fraunces({
   subsets: ["latin", "vietnamese"],
@@ -74,6 +77,18 @@ export default function RootLayout({ children }) {
       className={`${fraunces.variable} ${inter.variable} ${plexMono.variable}`}
     >
       <body className="min-h-screen flex flex-col">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
