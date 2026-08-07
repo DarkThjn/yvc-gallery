@@ -11,6 +11,41 @@ const STATUS_LABEL = {
   rejected: "Từ chối"
 };
 
+const vietnamDateFormatter = new Intl.DateTimeFormat("vi-VN", {
+  timeZone: "Asia/Ho_Chi_Minh",
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric"
+});
+
+const vietnamDateTimeFormatter = new Intl.DateTimeFormat("vi-VN", {
+  timeZone: "Asia/Ho_Chi_Minh",
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hourCycle: "h23"
+});
+
+function formatVietnamDate(date) {
+  return vietnamDateFormatter.format(new Date(date));
+}
+
+function formatVietnamDateTime(date) {
+  const parts = Object.fromEntries(
+    vietnamDateTimeFormatter
+      .formatToParts(new Date(date))
+      .map(({ type, value }) => [type, value])
+  );
+
+  return [
+    `${parts.day}/${parts.month}/${parts.year}`,
+    `${parts.hour}:${parts.minute}:${parts.second} GMT+7`
+  ].join(" ");
+}
+
 export default async function AdminRecruitmentPage() {
   const submissions = await prisma.recruitmentSubmission.findMany({
     orderBy: { createdAt: "desc" }
@@ -42,7 +77,7 @@ export default async function AdminRecruitmentPage() {
                 {s.studentInfo && <p className="text-sm text-muted">{s.studentInfo}</p>}
                 {s.birthDate && (
                   <p className="text-sm text-muted">
-                    Ngày sinh: {new Date(s.birthDate).toLocaleDateString("vi-VN")}
+                    Ngày sinh: {formatVietnamDate(s.birthDate)}
                   </p>
                 )}
                 {s.departments.length > 0 && (
@@ -66,7 +101,7 @@ export default async function AdminRecruitmentPage() {
             </div>
             <p className="text-cream/90 mt-3 text-sm whitespace-pre-line">{s.reason}</p>
             <p className="plaque-label mt-3">
-              {new Date(s.createdAt).toLocaleString("vi-VN")}
+              {formatVietnamDateTime(s.createdAt)}
             </p>
           </div>
         ))}
