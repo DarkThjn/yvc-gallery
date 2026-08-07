@@ -145,6 +145,15 @@ function Lightbox({
         <p className="text-xs text-white/50">
           {current + 1} / {photos.length}
         </p>
+        <a
+          href={photo.url}
+          target="_blank"
+          rel="noreferrer"
+          className="pointer-events-auto mt-3 inline-flex rounded-full bg-white/10 px-3 py-1.5 text-xs text-white/85 transition hover:bg-white/20 hover:text-white"
+          onClick={(event) => event.stopPropagation()}
+        >
+          Mở file gốc
+        </a>
       </div>
     </div>
   );

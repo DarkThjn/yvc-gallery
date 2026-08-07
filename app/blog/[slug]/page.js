@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
+import ZoomableImage from "@/components/ZoomableImage";
 
 export const dynamic = "force-dynamic";
 
@@ -46,15 +46,13 @@ export default async function PostDetailPage({ params }) {
       <h1 className="text-3xl mb-8">{post.title}</h1>
 
       {post.coverUrl && (
-        <div className="relative w-full aspect-video overflow-hidden rounded-frame mb-8 frame">
-          <Image
-            src={post.coverUrl}
-            alt={post.title}
-            fill
-            className="object-cover"
-            sizes="768px"
-          />
-        </div>
+        <ZoomableImage
+          src={post.coverUrl}
+          alt={post.title}
+          className="mb-8 aspect-video w-full frame"
+          sizes="768px"
+          priority
+        />
       )}
 
       <div className="text-cream/90 leading-relaxed whitespace-pre-line">
