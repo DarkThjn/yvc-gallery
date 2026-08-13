@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import BirthdayGlowFrame from "./BirthdayGlowFrame";
 
 const MONTH_LABELS = [
@@ -6,17 +7,40 @@ const MONTH_LABELS = [
   "Bảy", "Tám", "Chín", "Mười", "Mười Một", "Mười Hai"
 ];
 
-export default function BirthdayBanner({ data }) {
-  if (!data || data.members.length === 0) return null;
+export default function BirthdayBanner({ data, todayEvents = [] }) {
+  const members = data?.members || [];
+  const hasTodayBirthdays = data?.mode === "today" && members.length > 0;
+  const hasTodayEvents = todayEvents.length > 0;
 
-  if (data.mode === "today") {
-    return <TodaySpotlight members={data.members} />;
+  if (hasTodayBirthdays || hasTodayEvents) {
+    return (
+      <>
+        <TodaySpotlight
+          members={hasTodayBirthdays ? members : []}
+          events={todayEvents}
+        />
+        {!hasTodayBirthdays && data?.mode === "month" && members.length > 0 && (
+          <MonthWall members={members} monthLabel={data.monthLabel} />
+        )}
+      </>
+    );
   }
-  return <MonthWall members={data.members} monthLabel={data.monthLabel} />;
+
+  if (data?.mode === "month" && members.length > 0) {
+    return <MonthWall members={members} monthLabel={data.monthLabel} />;
+  }
+
+  return null;
 }
 
-function TodaySpotlight({ members }) {
+function TodaySpotlight({ members, events = [] }) {
+  const hasBirthdays = members.length > 0;
+  const hasEvents = events.length > 0;
   const multiple = members.length > 1;
+  const heading = hasBirthdays
+    ? `Chúc mừng sinh nhật ${multiple ? "các thành viên" : "thành viên"}`
+    : "Sự kiện diễn ra hôm nay";
+
   return (
     <section className="relative overflow-hidden border-y border-gold/25 bg-gradient-to-b from-surface via-ink to-ink">
       {/* vệt ánh sáng spotlight */}
@@ -29,43 +53,82 @@ function TodaySpotlight({ members }) {
       />
       <div className="relative max-w-6xl mx-auto px-5 py-14 text-center">
         <p className="plaque-label mb-4">Đang trưng bày hôm nay</p>
-        <h1 className="text-3xl md:text-4xl mb-10">
-          Chúc mừng sinh nhật {multiple ? "các thành viên" : "thành viên"}
-        </h1>
+        <h1 className="text-3xl md:text-4xl mb-10">{heading}</h1>
 
-        <div
-          className={`flex flex-wrap justify-center gap-8 ${
-            multiple ? "" : "max-w-xs mx-auto"
-          }`}
-        >
-          {members.map((m) => (
-            <div key={m.id} className="w-56 shrink-0">
-              <BirthdayGlowFrame>
-                <div className="frame p-3">
-                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-frame bg-surfaceLight">
-                    {m.photoUrl ? (
-                      <Image
-                        src={m.photoUrl}
-                        alt={m.fullName}
-                        fill
-                        className="object-cover"
-                        sizes="224px"
-                      />
-                    ) : (
-                      <PlaceholderPortrait name={m.fullName} />
-                    )}
+        {hasBirthdays && (
+          <div
+            className={`flex flex-wrap justify-center gap-8 ${
+              multiple ? "" : "max-w-xs mx-auto"
+            }`}
+          >
+            {members.map((m) => (
+              <div key={m.id} className="w-56 shrink-0">
+                <BirthdayGlowFrame>
+                  <div className="frame p-3">
+                    <div className="relative w-full aspect-[4/5] overflow-hidden rounded-frame bg-surfaceLight">
+                      {m.photoUrl ? (
+                        <Image
+                          src={m.photoUrl}
+                          alt={m.fullName}
+                          fill
+                          className="object-cover"
+                          sizes="224px"
+                        />
+                      ) : (
+                        <PlaceholderPortrait name={m.fullName} />
+                      )}
+                    </div>
                   </div>
+                </BirthdayGlowFrame>
+                <div className="mt-3">
+                  <p className="font-display text-lg text-cream">{m.fullName}</p>
+                  {m.role && <p className="text-sm text-muted">{m.role}</p>}
                 </div>
-              </BirthdayGlowFrame>
-              <div className="mt-3">
-                <p className="font-display text-lg text-cream">{m.fullName}</p>
-                {m.role && <p className="text-sm text-muted">{m.role}</p>}
               </div>
+            ))}
+          </div>
+        )}
+
+        {hasEvents && (
+          <div className={hasBirthdays ? "mt-12" : ""}>
+            <p className="plaque-label mb-5">Sự kiện hôm nay</p>
+            <div className="grid gap-5 md:grid-cols-2">
+              {events.map((event) => (
+                <TodayEventCard key={event.id} event={event} />
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+function TodayEventCard({ event }) {
+  return (
+    <Link
+      href={`/events/${event.slug}`}
+      className="frame group grid gap-4 p-3 text-left transition-colors hover:border-gold md:grid-cols-[180px_1fr]"
+    >
+      <div className="relative aspect-video overflow-hidden rounded-frame bg-surfaceLight md:aspect-[4/3]">
+        <Image
+          src={event.imageUrl}
+          alt={event.title}
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          sizes="(min-width: 768px) 180px, 100vw"
+        />
+      </div>
+      <div className="flex min-w-0 flex-col justify-center">
+        <p className="plaque-label mb-2">{event.timeLabel || event.dateLabel}</p>
+        <p className="font-display text-xl leading-tight text-cream">
+          {event.title}
+        </p>
+        {event.location && (
+          <p className="mt-2 text-sm text-muted">{event.location}</p>
+        )}
+      </div>
+    </Link>
   );
 }
 
