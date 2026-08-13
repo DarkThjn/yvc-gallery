@@ -56,7 +56,7 @@ export default function EventSlider({ events }) {
             {event.location && <span>{event.location}</span>}
           </div>
           {event.description && (
-            <p className="mt-5 line-clamp-3 max-w-xl text-sm leading-relaxed text-muted md:text-base">
+            <p className="mt-5 line-clamp-3 max-w-xl rounded-frame border border-white/70 bg-white/75 px-4 py-3 text-sm leading-relaxed text-muted shadow-sm backdrop-blur-md md:text-base">
               {event.description}
             </p>
           )}

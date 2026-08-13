@@ -106,29 +106,31 @@ function TodaySpotlight({ members, events = [] }) {
 
 function TodayEventCard({ event }) {
   return (
-    <Link
-      href={`/events/${event.slug}`}
-      className="frame group grid gap-4 p-3 text-left transition-colors hover:border-gold md:grid-cols-[180px_1fr]"
-    >
-      <div className="relative aspect-video overflow-hidden rounded-frame bg-surfaceLight md:aspect-[4/3]">
-        <Image
-          src={event.imageUrl}
-          alt={event.title}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-          sizes="(min-width: 768px) 180px, 100vw"
-        />
-      </div>
-      <div className="flex min-w-0 flex-col justify-center">
-        <p className="plaque-label mb-2">{event.timeLabel || event.dateLabel}</p>
-        <p className="font-display text-xl leading-tight text-cream">
-          {event.title}
-        </p>
-        {event.location && (
-          <p className="mt-2 text-sm text-muted">{event.location}</p>
-        )}
-      </div>
-    </Link>
+    <BirthdayGlowFrame className="text-left">
+      <Link
+        href={`/events/${event.slug}`}
+        className="frame group grid gap-4 p-3 text-left transition-colors hover:border-gold md:grid-cols-[180px_1fr]"
+      >
+        <div className="relative aspect-video overflow-hidden rounded-frame bg-surfaceLight md:aspect-[4/3]">
+          <Image
+            src={event.imageUrl}
+            alt={event.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(min-width: 768px) 180px, 100vw"
+          />
+        </div>
+        <div className="flex min-w-0 flex-col justify-center">
+          <p className="plaque-label mb-2">{event.timeLabel || event.dateLabel}</p>
+          <p className="font-display text-xl leading-tight text-cream">
+            {event.title}
+          </p>
+          {event.location && (
+            <p className="mt-2 text-sm text-muted">{event.location}</p>
+          )}
+        </div>
+      </Link>
+    </BirthdayGlowFrame>
   );
 }
 
