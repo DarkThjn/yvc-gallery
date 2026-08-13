@@ -47,7 +47,7 @@ export default function EventSlider({ events }) {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(242,182,199,0.32),transparent_30%),linear-gradient(180deg,transparent,rgba(85,49,59,0.10))]" />
 
       <div className="relative z-10 grid min-h-[440px] content-end px-5 py-8 md:min-h-[430px] md:content-center md:px-10">
-        <div className="max-w-2xl">
+        <div className="max-w-2xl rounded-frame border border-white/75 bg-white/85 px-5 py-5 shadow-[0_18px_44px_rgba(85,49,59,0.12)] backdrop-blur-md md:px-6 md:py-6">
           <p className="plaque-label mb-3">{event.statusLabel}</p>
           <h3 className="text-3xl leading-tight md:text-4xl">{event.title}</h3>
           <div className="mt-4 flex flex-wrap gap-3 text-sm text-muted">
@@ -56,7 +56,7 @@ export default function EventSlider({ events }) {
             {event.location && <span>{event.location}</span>}
           </div>
           {event.description && (
-            <p className="mt-5 line-clamp-3 max-w-xl rounded-frame border border-white/70 bg-white/75 px-4 py-3 text-sm leading-relaxed text-muted shadow-sm backdrop-blur-md md:text-base">
+            <p className="mt-5 line-clamp-3 max-w-xl text-sm leading-relaxed text-muted md:text-base">
               {event.description}
             </p>
           )}
