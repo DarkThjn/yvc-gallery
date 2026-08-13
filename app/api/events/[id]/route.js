@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
+import { parseVietnamDateTimeInput } from "@/lib/vietnamTime";
 
 export async function GET(req, { params }) {
   const event = await prisma.event.findUnique({ where: { id: params.id } });
@@ -17,8 +18,8 @@ export async function PATCH(req, { params }) {
   if (body.title !== undefined) data.title = body.title;
   if (body.description !== undefined) data.description = body.description || null;
   if (body.location !== undefined) data.location = body.location || null;
-  if (body.startsAt !== undefined) data.startsAt = new Date(body.startsAt);
-  if (body.endsAt !== undefined) data.endsAt = body.endsAt ? new Date(body.endsAt) : null;
+  if (body.startsAt !== undefined) data.startsAt = parseVietnamDateTimeInput(body.startsAt);
+  if (body.endsAt !== undefined) data.endsAt = parseVietnamDateTimeInput(body.endsAt);
   if (body.coverUrl !== undefined) data.coverUrl = body.coverUrl || null;
   if (body.isPublished !== undefined) data.isPublished = body.isPublished;
 

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { absoluteUrl, siteConfig } from "@/lib/siteConfig";
 import ZoomableImage from "@/components/ZoomableImage";
+import { formatVietnamDateTime } from "@/lib/vietnamTime";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,7 @@ export default async function EventDetailPage({ params }) {
       <p className="plaque-label mb-3">Sự kiện</p>
       <h1 className="text-3xl mb-2">{event.title}</h1>
       <p className="text-sm text-muted mb-8">
-        {new Date(event.startsAt).toLocaleString("vi-VN")}
+        {formatVietnamDateTime(event.startsAt)}
         {event.location ? ` · ${event.location}` : ""}
       </p>
 

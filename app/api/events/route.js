@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/requireAdmin";
 import { slugify } from "@/lib/slugify";
+import { parseVietnamDateTimeInput } from "@/lib/vietnamTime";
 
 export async function GET() {
   const events = await prisma.event.findMany({ orderBy: { startsAt: "desc" } });
@@ -21,8 +22,8 @@ export async function POST(req) {
       slug,
       description: body.description || null,
       location: body.location || null,
-      startsAt: new Date(body.startsAt),
-      endsAt: body.endsAt ? new Date(body.endsAt) : null,
+      startsAt: parseVietnamDateTimeInput(body.startsAt),
+      endsAt: parseVietnamDateTimeInput(body.endsAt),
       coverUrl: body.coverUrl || null,
       isPublished: body.isPublished ?? true
     }

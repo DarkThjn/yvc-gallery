@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import DeleteButton from "@/components/admin/DeleteButton";
+import { formatVietnamDateTime } from "@/lib/vietnamTime";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,7 @@ export default async function AdminEventsPage() {
               <p className="text-cream">
                 {e.title} {!e.isPublished && <span className="text-xs text-muted">(nháp)</span>}
               </p>
-              <p className="text-xs text-muted">{new Date(e.startsAt).toLocaleDateString("vi-VN")}</p>
+              <p className="text-xs text-muted">{formatVietnamDateTime(e.startsAt)}</p>
             </div>
             <div className="flex items-center gap-4 text-sm">
               <Link href={`/admin/events/${e.id}`} className="text-gold hover:text-goldSoft">Sửa</Link>
